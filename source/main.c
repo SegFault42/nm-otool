@@ -11,6 +11,16 @@ static void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char 
 	stringtable = (void *)ptr + stroff;
 	while (i < nsyms)
 	{
+		if (array[i].n_value)
+			printf("%.16llx ", array[i].n_value);
+		else
+			printf("                 ");
+		if (array[i].n_type == N_TYPE)
+			printf("t ");
+		else if (array[i].n_type == N_EXT)
+			printf("U ");
+		else if (array[i].n_type == 0xf)
+			printf("T ");
 		printf("%s\n", stringtable + array[i].n_un.n_strx);
 		++i;
 	}
@@ -33,10 +43,16 @@ static void	handle_64(char *ptr)
 		if (lc->cmd == LC_SYMTAB) // si la cmd est egal a LC_SYMTAB
 		{
 			sym = (struct symtab_command *)lc;
+			printf("cmdsize =					%d\n", sym->cmdsize);
+			printf("symbol tab offset =				%d\n", sym->symoff);
+			printf("number of symbol table entries =		%d\n", sym->nsyms);
+			printf("string table offset =				%d\n", sym->stroff);
+			printf("string table size in byte =			%d\n", sym->strsize);
+			RC;
 			print_output(sym->nsyms, sym->symoff, sym->stroff, ptr);
 			break ;
 		}
-		lc = (void*)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize
+		lc = (void *)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize
 		++i; // on incremente i
 	}
 
