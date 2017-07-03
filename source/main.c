@@ -1,14 +1,14 @@
 #include "nm.h"
 
-void	print_output(int nsyms, int symoff, int stroff, char *ptr)
+static void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
 {
-	int	i;
-	char	*stringtable;
+	uint32_t		i;
+	char			*stringtable;
 	struct nlist_64 *array;
 
 	i = 0;
 	array = (void *)ptr + symoff;
-	stringtable = ptr + stroff;
+	stringtable = (void *)ptr + stroff;
 	while (i < nsyms)
 	{
 		printf("%s\n", stringtable + array[i].n_un.n_strx);
@@ -19,25 +19,25 @@ void	print_output(int nsyms, int symoff, int stroff, char *ptr)
 static void	handle_64(char *ptr)
 {
 	struct load_command		*lc;
-	struct mach_header_64	*header;
 	struct symtab_command	*sym;
-	uint32_t				ncmds;
+	struct mach_header_64	*header;
 	uint32_t				i;
+	uint32_t				ncmds;
 
 	i = 0;
-	header = (void *)ptr;
-	ncmds = header->ncmds;
-	lc = (void *)ptr + sizeof(struct mach_header_64);
-	while (i < ncmds)
+	header = (void *)ptr; // header pointe sur ptr (octet 0 du binaire)
+	ncmds = header->ncmds; // ncmds contient le nombre de load_command
+	lc = (void *)ptr + sizeof(struct mach_header_64); // lc pointe sur le debut de la zone des load commands (juste apres le header)
+	while (i < ncmds) // on iter autant de fois qu'il y a de load commands
 	{
-		if (lc->cmd == LC_SYMTAB)
+		if (lc->cmd == LC_SYMTAB) // si la cmd est egal a LC_SYMTAB
 		{
 			sym = (struct symtab_command *)lc;
 			print_output(sym->nsyms, sym->symoff, sym->stroff, ptr);
 			break ;
 		}
-		lc = (void*)lc + lc->cmdsize;
-		++i;
+		lc = (void*)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize
+		++i; // on incremente i
 	}
 
 }
@@ -81,7 +81,6 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	nm(ptr);
-	// code goes here ...
 	if (munmap(ptr, (size_t)buf.st_size) < 0)
 	{
 		ft_dprintf(STDERR_FILENO, "munap failure\n");

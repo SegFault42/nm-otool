@@ -1,0 +1,6 @@
+*.gch
+*.o
+*.a
+*.so
+a.out
+test0
