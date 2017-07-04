@@ -1,22 +1,22 @@
 #include "nm.h"
 
-char *setup_unset(char *argv, t_setup *stp, char flag)
+char *setup_unset(char *argv, t_setup *setup, char flag)
 {
 	if (flag == 's')
 	{
-		stp->fd = open(argv, O_RDONLY);
-		if (stp->fd == -1)
+		setup->fd = open(argv, O_RDONLY);
+		if (setup->fd == -1)
 		{
 			ft_dprintf(STDERR_FILENO, "Open argv failure\n");
 			return (NULL);
 		}
-		if (fstat(stp->fd, &stp->buf) == -1)
+		if (fstat(setup->fd, &setup->buf) == -1)
 		{
 			ft_dprintf(STDERR_FILENO, "fstat failure\n");
 			return (NULL);
 		}
-		stp->ptr = mmap(0, (size_t)stp->buf.st_size, PROT_READ, MAP_PRIVATE, stp->fd, 0);
-		if (stp->ptr == MAP_FAILED)
+		setup->ptr = mmap(0, (size_t)setup->buf.st_size, PROT_READ, MAP_PRIVATE, setup->fd, 0);
+		if (setup->ptr == MAP_FAILED)
 		{
 			ft_dprintf(STDERR_FILENO, "mmap failure\n");
 			return (NULL);
@@ -24,12 +24,12 @@ char *setup_unset(char *argv, t_setup *stp, char flag)
 	}
 	else if (flag == 'u')
 	{
-		if (munmap(stp->ptr, (size_t)stp->buf.st_size) == -1)
+		if (munmap(setup->ptr, (size_t)setup->buf.st_size) == -1)
 		{
 			ft_dprintf(STDERR_FILENO, "munap failure\n");
 			return ((char *)-1);
 		}
-		ft_memset(stp, 0, sizeof(t_setup));
+		ft_memset(setup, 0, sizeof(t_setup));
 	}
-	return (stp->ptr);
+	return (setup->ptr);
 }

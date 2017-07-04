@@ -18,7 +18,7 @@ END = \033[0m
 ##################################_COMPILATION_#################################
 NAME = ft_nm
 CC = clang
-FLAG = -Weverything
+FLAG = -Weverything -g
 LFT = ./libft/libft.a
 SRC = ./source
 SRCS = $(SRC)/main.c \

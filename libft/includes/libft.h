@@ -115,7 +115,7 @@ double				ft_sqrt(double a);
 long				ft_atol(const char *str);
 char				*ft_itoa_base(int value, int base);
 size_t				ft_strclen(const char *s, char c);
-char				*ft_hexa_itoa(unsigned int n, int up);
+char				*ft_hexa_itoa(unsigned long long n, int up);
 char				*ft_hexa_ltoa(unsigned long long n, int up);
 void				print_memory(const void *addr, size_t size);
 void				ft_put_long(long n);
@@ -141,5 +141,6 @@ void				*ft_trymalloc(size_t size);
 void				ft_critical_error(uint8_t error);
 void				ft_set_2d_tab(char **tab, int size);
 void				ft_strxcat(char *dest, char *src, int x);
+void				ft_sort_double_array(char **array);
 
 #endif

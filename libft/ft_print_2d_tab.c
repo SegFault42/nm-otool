@@ -18,7 +18,7 @@ void	ft_print_2d_tab(char **tab)
 
 	i = 0;
 	if (tab == NULL)
-		ft_dprintf(1, "(NULL)\n");
+		ft_dprintf(2, "(NULL)\n");
 	else
 	{
 		while (tab[i])

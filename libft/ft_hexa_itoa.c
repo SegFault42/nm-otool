@@ -12,9 +12,9 @@
 
 #include "./includes/libft.h"
 
-static int	switch_hexa(int x, int up)
+static int	switch_hexa(unsigned long long x, int up)
 {
-	if (0 <= x && x <= 9)
+	if (x <= 9)
 		return (48 + x);
 	if (x >= 10 && x <= 15)
 	{
@@ -27,11 +27,11 @@ static int	switch_hexa(int x, int up)
 	return (0);
 }
 
-char		*ft_hexa_itoa(unsigned int n, int up)
+char		*ft_hexa_itoa(unsigned long long n, int up)
 {
 	char				*str;
 	int					size;
-	unsigned int		x;
+	unsigned long long		x;
 
 	x = n;
 	size = 0;
