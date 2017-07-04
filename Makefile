@@ -22,6 +22,7 @@ FLAG = -Weverything
 LFT = ./libft/libft.a
 SRC = ./source
 SRCS = $(SRC)/main.c \
+		$(SRC)/setup.c \
 
 INCLUDE = -I ./include/ -I ./libft/includes/
 

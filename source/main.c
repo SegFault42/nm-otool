@@ -63,44 +63,37 @@ static void	nm(char *ptr)
 	uint32_t	magic_number;
 
 	magic_number = *(uint32_t *)(void *)ptr;
-
 	if (magic_number == MH_MAGIC_64)
 		handle_64(ptr);
 }
 
 int	main(int argc, char **argv)
 {
-	int			fd;
-	char		*ptr;
-	struct stat	buf;
+	t_setup	stp;
+	int		i;
 
-	if (argc != 2)
+	i = 0;
+	ft_memset(&stp, 0, sizeof(t_setup));
+	if (argc == 1)
 	{
-		ft_dprintf(STDERR_FILENO, "One arg\n");
-		return (EXIT_FAILURE);
+		stp.ptr = setup_unset("./a.out", &stp, 's');
+		nm(stp.ptr);
+		if (setup_unset("a.out", &stp, 'u') == (char *)-1)
+			return (EXIT_FAILURE);
 	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
+	else
 	{
-		ft_dprintf(STDERR_FILENO, "Open argv[1] failure\n");
-		return (EXIT_FAILURE);
-	}
-	if (fstat(fd, &buf) == -1)
-	{
-		ft_dprintf(STDERR_FILENO, "fstat failure\n");
-		return (EXIT_FAILURE);
-	}
-	ptr = mmap(0, (size_t)buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (ptr == MAP_FAILED)
-	{
-		ft_dprintf(STDERR_FILENO, "mmap failure\n");
-		return (EXIT_FAILURE);
-	}
-	nm(ptr);
-	if (munmap(ptr, (size_t)buf.st_size) < 0)
-	{
-		ft_dprintf(STDERR_FILENO, "munap failure\n");
-		return (EXIT_FAILURE);
+		while (++i < argc)
+		{
+			if (argc > 2)
+				ft_dprintf(1, "\n%s:\n", argv[i]);
+			stp.ptr = setup_unset(argv[i], &stp, 's');
+			if (!stp.ptr)
+				return (EXIT_FAILURE);
+			nm(stp.ptr);
+			if (setup_unset(argv[i], &stp, 'u') == (char *)-1)
+				return (EXIT_FAILURE);
+		}
 	}
 	return (0);
 }
