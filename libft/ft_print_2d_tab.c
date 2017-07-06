@@ -23,7 +23,8 @@ void	ft_print_2d_tab(char **tab)
 	{
 		while (tab[i])
 		{
-			ft_dprintf(1, "%s\n", tab[i]);
+			if(!ft_strstr(tab[i], "radr://5614542"))
+				ft_dprintf(1, "%s\n", tab[i]);
 			++i;
 		}
 	}

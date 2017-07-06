@@ -16,5 +16,7 @@ typedef struct	s_setup
 }				t_setup;
 
 char	*setup_unset(char *argv, t_setup *stp, char flag);
+void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr);
+void	handle_64(char *ptr);
 
 #endif
