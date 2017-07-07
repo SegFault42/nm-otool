@@ -142,5 +142,6 @@ void				ft_critical_error(uint8_t error);
 void				ft_set_2d_tab(char **tab, int size);
 void				ft_strxcat(char *dest, char *src, int x);
 void				ft_sort_double_array(char **array);
+void				ft_sort_double_array_32(char **arguments);
 
 #endif
