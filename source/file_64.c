@@ -1,7 +1,68 @@
 #include "nm.h"
 
+static void	swap_64(char **array, int nb)
+{
+	int i;
+	int j;
 
-static void	print_output_64(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
+	i = 0;
+	j = nb;
+	while (i < j)
+	{
+		if (array[i] == NULL)
+		{
+			while (array[j] == NULL)
+				j--;
+			array[i] = ft_strdup(array[j]);
+			ft_strdel(&array[j]);
+			/*array[j] = NULL;*/
+		}
+		++i;
+	}
+	/*for (int a = 0; a < nb; ++a)*/
+		/*printf("%s\n", array[a]);*/
+	/*ft_print_2d_tab(array);*/
+	/*sleep(10);*/
+}
+
+static void	delete_same_value_64(char **array, int nb)
+{
+	int	i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i < nb)
+	{
+		while (array[i] == NULL)
+			++i;
+		j = i;
+		++j;
+		while (j < nb)
+		{
+			if (array[j] == NULL)
+				++j;
+			if (&array[j][19] && &array[i][19] && ft_strcmp(&array[i][19], &array[j][19]) == 0)
+				ft_strdel(&array[j]);
+			++j;
+		}
+		++i;
+	}
+	i = 0;
+	while (i < nb)
+	{
+		if (array[i] && array[i][19] == '/')
+			ft_strdel(&array[i]);
+		if (array[i] && ft_strlen(array[i]) == 19)
+			ft_strdel(&array[i]);
+		if (array[i] && array[i][17] == '0')
+			ft_strdel(&array[i]);
+		++i;
+	}
+	swap_64(array, nb);
+}
+
+static void	print_output_64_obj(struct symtab_command *sym, char *ptr)
 {
 	uint32_t		i;
 	char			*stringtable;
@@ -10,13 +71,13 @@ static void	print_output_64(uint32_t nsyms, uint32_t symoff, uint32_t stroff, ch
 	char			*hexa_itoa;
 
 	i = 0;
-	array = (void *)ptr + symoff;
-	stringtable = (void *)ptr + stroff;
-	output = (char **)malloc(sizeof(char *) * nsyms + 1);
-	output[nsyms] = NULL;
+	array = (void *)ptr + sym->symoff;
+	stringtable = (void *)ptr + sym->stroff;
+	output = (char **)malloc(sizeof(char *) * sym->nsyms + 1);
+	output[sym->nsyms] = NULL;
 	if (!output)
 		ft_critical_error(MALLOC_ERROR);
-	while (i < nsyms)
+	while (i < sym->nsyms)
 	{
 		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 +2);
 		if (!output)
@@ -36,12 +97,67 @@ static void	print_output_64(uint32_t nsyms, uint32_t symoff, uint32_t stroff, ch
 		/*printf("n_type = %d | ", array[i].n_type);*/
 		/*printf("n_sect = %d |", array[i].n_sect); // debug print for symbole*/
 		/*printf("n_desc = %d |", array[i].n_desc);*/
-		/*printf("n_value = %lld\n", array[i].n_value);*/
-		/*printf("%d\n", array[i].n_type & array[i].n_sect);*/
+		/*printf("n_value = %lld ", array[i].n_value);*/
+		/*printf("%s\n", stringtable + array[i].n_un.n_strx);*/
+		/*printf("%d\n", array[i].n_type | array[i].n_sect);*/
 
-		if ((array[i].n_type & array[i].n_sect) == 0x0)
+		if ((array[i].n_type | array[i].n_sect) == 0x1)
 			ft_strcat(output[i], "U ");
-		else if ((array[i].n_type & array[i].n_sect) == 0x1)
+		else if ((array[i].n_type | array[i].n_sect) == 15 && ft_strncmp(output[i], "                ", 16) == 0)
+		{
+			ft_memset(output[i], '0', 16);
+			ft_strcat(output[i], "T ");
+		}
+		else if ((array[i].n_type | array[i].n_sect) == 15)
+			ft_strcat(output[i], "t ");
+		else
+			ft_strcat(output[i], "0 ");
+		ft_strcat(output[i], stringtable + array[i].n_un.n_strx); // stock le nom
+		/*ft_strcat(output[i], " ");*/
+		/*ft_strcat(output[i], ft_itoa(array[i].n_type)); // debug flag*/
+		++i;
+	}
+	ft_sort_double_array(output);
+	ft_print_2d_tab(output);
+	ft_2d_tab_free(output);
+}
+
+static void	print_output_64(struct symtab_command *sym, char *ptr)
+{
+	uint32_t		i;
+	char			*stringtable;
+	struct nlist_64	*array;
+	char			**output;
+	char			*hexa_itoa;
+
+	i = 0;
+	array = (void *)ptr + sym->symoff;
+	stringtable = (void *)ptr + sym->stroff;
+	output = (char **)malloc(sizeof(char *) * sym->nsyms + 1);
+	output[sym->nsyms] = NULL;
+	if (!output)
+		ft_critical_error(MALLOC_ERROR);
+	while (i < sym->nsyms)
+	{
+		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 +2);
+		if (!output)
+			ft_critical_error(MALLOC_ERROR);
+		if (array[i].n_value)
+		{
+			hexa_itoa = ft_hexa_itoa(array[i].n_value, 0);
+			ft_strxcat(output[i], "0", 16 - (int)ft_strlen(hexa_itoa));
+			ft_strcat(output[i], hexa_itoa);
+			ft_strdel(&hexa_itoa);
+		}
+		else
+			ft_strxcat(output[i], " ", 16);
+		ft_strcat(output[i], " ");
+
+		if ((array[i].n_type | array[i].n_sect) == 0x1)
+			ft_strcat(output[i], "U ");
+		else if ((array[i].n_type | array[i].n_sect) == 37)
+			ft_strcat(output[i], "t ");
+		else if ((array[i].n_type | array[i].n_sect) == 15)
 			ft_strcat(output[i], "T ");
 		else if ((array[i].n_type & array[i].n_sect) == 0x8)
 			ft_strcat(output[i], "d ");
@@ -55,9 +171,18 @@ static void	print_output_64(uint32_t nsyms, uint32_t symoff, uint32_t stroff, ch
 			ft_strcat(output[i], "0 ");
 		ft_strcat(output[i], stringtable + array[i].n_un.n_strx); // stock le nom
 		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa(array[i].n_type)); // debug flag*/
+		/*ft_strcat(output[i], ft_itoa(array[i].n_type | array[i].n_sect)); // debug flag*/
+		/*printf("%s ", output[i]);*/
+		/*printf("n_type = %d | ", array[i].n_type);*/
+		/*printf("n_sect = %d |", array[i].n_sect); // debug print for symbole*/
+		/*printf("n_desc = %d |", array[i].n_desc);*/
+		/*printf("n_value = %lld ", array[i].n_value);*/
+		/*printf("%s\n", stringtable + array[i].n_un.n_strx);*/
+		/*printf("%d\n", array[i].n_type | array[i].n_sect);*/
 		++i;
 	}
+	ft_sort_double_array(output);
+	delete_same_value_64(output, sym->nsyms);
 	ft_sort_double_array(output);
 	ft_print_2d_tab(output);
 	ft_2d_tab_free(output);
@@ -86,7 +211,7 @@ void	handle_64_revers(char *ptr)
 			/*printf("string table offset =				%d\n", sym->stroff);*/
 			/*printf("string table size in byte =			%d\n", sym->strsize);*/
 			/*RC;*/
-			print_output_64(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			print_output_64(sym, ptr);
 			break ;
 		}
 		lc = (void *)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize
@@ -117,7 +242,10 @@ void	handle_64(char *ptr)
 			/*printf("string table offset =				%d\n", sym->stroff);*/
 			/*printf("string table size in byte =			%d\n", sym->strsize);*/
 			/*RC;*/
-			print_output_64(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			if (header->filetype == MH_OBJECT)
+				print_output_64_obj(sym, ptr);
+			else
+				print_output_64(sym, ptr);
 			break ;
 		}
 		lc = (void *)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize

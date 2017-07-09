@@ -7,6 +7,12 @@
 #include <mach-o/nlist.h>
 #include <sys/stat.h>
 
+typedef struct		s_symtab
+{
+	char			*name;
+	struct s_symtab	*next;
+}					t_symtab;
+
 typedef struct	s_setup
 {
 	struct stat	buf;
