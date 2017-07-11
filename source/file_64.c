@@ -133,7 +133,10 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 				ft_strcat(output[i], "T ");
 			else if ((array[i].n_type ^ array[i].n_sect) == 1)
 				ft_strcat(output[i], "U ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 0 || (array[i].n_type ^ array[i].n_sect) == 22 || (array[i].n_type ^ array[i].n_sect) == 21 || (array[i].n_type ^ array[i].n_sect) == 26)
+			else if ((array[i].n_type ^ array[i].n_sect) == 0 ||
+					(array[i].n_type ^ array[i].n_sect) == 22 ||
+					(array[i].n_type ^ array[i].n_sect) == 21 ||
+					(array[i].n_type ^ array[i].n_sect) == 26)
 				ft_strcat(output[i], "S ");
 			else
 				ft_strcat(output[i], "0 ");

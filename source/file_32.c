@@ -32,34 +32,41 @@ static void	delete_same_value(char **array, int nb)
 
 	i = 0;
 	j = 0;
-	/*while (i < nb)*/
-	/*{*/
-		/*while (!array[i])*/
-			/*++i;*/
-		/*j = i++;*/
-		/*while (j < nb)*/
-		/*{*/
-			/*if ((array[j][11] && array[i] && ft_strcmp(&array[i][12], &array[j][12]) == 0))*/
-				/*ft_strdel(&array[j]);*/
-			/*if (array[j] && ft_strlen(array[j]) == 11)*/
-				/*ft_strdel(&array[j]);*/
-			/*j ++;*/
-		/*}*/
-		/*++i;*/
-	/*}*/
-	/*i = 0;*/
+	while (i < nb)
+	{
+		while (!array[i])
+			++i;
+		j = i;
+		++j;
+		while (j < nb)
+		{
+			if ((array[j] && ft_strcmp(array[i], array[j]) == 0))
+				ft_strdel(&array[j]);
+			if ((array[j] && ft_strcmp(&array[i][11], &array[j][11]) == 0) && ft_strncmp(array[i], "        ", 8) == 0)
+			{
+				ft_strdel(&array[i]);
+				j = nb;
+			}
+			j++;
+		}
+		++i;
+	}
+	i = 0;
 	while (i < nb)
 	{
 		if (array[i] && array[i][11] == '/')
 			ft_strdel(&array[i]);
 		if (array[i] && ft_strlen(array[i]) == 11)
 			ft_strdel(&array[i]);
+		if (array[i] && array[i][9] == '0')
+			ft_strdel(&array[i]);
 		++i;
 	}
 	swap(array, nb);
+	swap(array, nb);
 }
 
-static void	print_output_32(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
+static void	print_output_32(struct symtab_command *sym, struct mach_header *header, char *ptr)
 {
 	uint32_t		i;
 	char			*stringtable;
@@ -68,13 +75,13 @@ static void	print_output_32(uint32_t nsyms, uint32_t symoff, uint32_t stroff, ch
 	char			*hexa_itoa;
 
 	i = 0;
-	array = (void *)ptr + symoff;
-	stringtable = (void *)ptr + stroff;
-	output = (char **)malloc(sizeof(char *) * nsyms + 1);
-	output[nsyms] = NULL;
+	array = (void *)ptr + sym->symoff;
+	stringtable = (void *)ptr + sym->stroff;
+	output = (char **)malloc(sizeof(char *) * sym->nsyms + 1);
+	output[sym->nsyms] = NULL;
 	if (!output)
 		ft_critical_error(MALLOC_ERROR);
-	while (i < nsyms)
+	while (i < sym->nsyms)
 	{
 		output[i] = (char *)ft_memalloc(sizeof(char) * 11 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 +2);
 		if (!output)
@@ -91,27 +98,42 @@ static void	print_output_32(uint32_t nsyms, uint32_t symoff, uint32_t stroff, ch
 		ft_strcat(output[i], " ");
 
 
-		if ((array[i].n_type | array[i].n_sect) == 0x1)
-			ft_strcat(output[i], "U ");
-		else if ((array[i].n_type | array[i].n_sect) == 15)
-			ft_strcat(output[i], "t ");
-		else if ((array[i].n_type | array[i].n_sect) == 31 || (array[i].n_type | array[i].n_sect) == 37)
-			ft_strcat(output[i], "S ");
-		else
-			ft_strcat(output[i], "0 ");
+		if (header->filetype == MH_EXECUTE)
+		{
+			if ((array[i].n_type ^ array[i].n_sect) == 0x1)
+				ft_strcat(output[i], "U ");
+			else if ((array[i].n_type ^ array[i].n_sect) == 15 || (array[i].n_type ^ array[i].n_sect) == 37 || (array[i].n_type ^ array[i].n_sect) == 31)
+				ft_strcat(output[i], "t ");
+			else if ((array[i].n_type ^ array[i].n_sect) == 29)
+				ft_strcat(output[i], "S ");
+			else if ((array[i].n_type ^ array[i].n_sect) == 5 ||
+					(array[i].n_type ^ array[i].n_sect) == 19 ||
+					(array[i].n_type ^ array[i].n_sect) == 32 ||
+					(array[i].n_type ^ array[i].n_sect) == 45 ||
+					(array[i].n_type ^ array[i].n_sect) == 24)
+				ft_strcat(output[i], "s ");
+			else if ((array[i].n_type ^ array[i].n_sect) == 14)
+				ft_strcat(output[i], "T ");
+			else if ((array[i].n_type ^ array[i].n_sect) == 0 || (array[i].n_type ^ array[i].n_sect) == 40)
+				ft_strcat(output[i], "b ");
+			else
+				ft_strcat(output[i], "0 ");
+		}
 		ft_strcat(output[i], stringtable + array[i].n_un.n_strx); // stock le nom
 		/*ft_strcat(output[i], " ");*/
 		/*ft_strcat(output[i], ft_itoa(array[i].n_type)); // debug flag*/
-		printf("%s ", output[i]);
-		printf("n_type = %d | ", array[i].n_type);
-		printf("n_sect = %d |", array[i].n_sect); // debug print for symbole
-		printf("n_desc = %d |", array[i].n_desc);
-		printf("n_value = %d\n", array[i].n_value);
-		printf("%d\n", array[i].n_type | array[i].n_sect);
+		/*printf("%s ", output[i]);*/
+		/*printf("n_type = %d | ", array[i].n_type);*/
+		/*printf("n_sect = %d |", array[i].n_sect); // debug print for symbole*/
+		/*printf("n_desc = %d |", array[i].n_desc);*/
+		/*printf("n_value = %d\n", array[i].n_value);*/
+		/*printf("%d\n", array[i].n_type | array[i].n_sect);*/
+		/*ft_strcat(output[i], " ");*/
+		/*ft_strcat(output[i], ft_itoa(array[i].n_type ^ array[i].n_sect)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
 		++i;
 	}
 	ft_sort_double_array_32(output);
-	delete_same_value(output, nsyms);
+	delete_same_value(output, sym->nsyms);
 	ft_sort_double_array_32(output);
 	ft_print_2d_tab(output);
 	ft_2d_tab_free(output);
@@ -140,7 +162,8 @@ void	handle_32(char *ptr)
 			/*printf("string table offset =				%d\n", sym->stroff);*/
 			/*printf("string table size in byte =			%d\n", sym->strsize);*/
 			/*RC;*/
-			print_output_32(sym->nsyms, sym->symoff, sym->stroff, ptr);
+			/*printf("%d\n", header->filetype);*/
+			print_output_32(sym, header, ptr);
 			break ;
 		}
 		lc = (void *)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize

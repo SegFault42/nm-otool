@@ -7,8 +7,6 @@ static void	nm(char *ptr)
 	magic_number = *(uint32_t *)(void *)ptr;
 	if (magic_number == MH_MAGIC_64)
 		handle_64(ptr);
-	else if (magic_number == MH_CIGAM_64)
-		printf(PINK"CIGAM"END);
 	else if (magic_number == MH_MAGIC)
 		handle_32(ptr);
 	else
