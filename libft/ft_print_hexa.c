@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hexa_ltoa.c                                     :+:      :+:    :+:   */
+/*   print_hexa.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/09 03:58:17 by rabougue          #+#    #+#             */
-/*   Updated: 2016/08/06 22:15:07 by rabougue         ###   ########.fr       */
+/*   Created: 2017/05/19 05:14:45 by rabougue          #+#    #+#             */
+/*   Updated: 2017/05/20 06:05:20 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/libft.h"
 
-static int	switch_hexa(unsigned long long x, int up)
+static unsigned long	switch_hexa(unsigned long x)
 {
 	if (x <= 9)
 		return (48 + x);
 	if (x >= 10 && x <= 15)
 	{
 		x = x - 10;
-		if (up == 0)
-			return ('a' + x);
-		else if (up == 1)
-			return ('A' + x);
+		return ('A' + x);
 	}
 	return (0);
 }
 
-char		*ft_hexa_ltoa(unsigned long long n, int up)
+void	ft_print_hexa(unsigned long n)
 {
-	char				*str;
-	unsigned long long 	size;
-	unsigned long long	x;
+	char			str[128];
+	int				size;
+	unsigned long	x;
 
+	ft_memset(str, 0, 128);
 	x = n;
 	size = 0;
 	while (x >= 16)
@@ -40,17 +38,14 @@ char		*ft_hexa_ltoa(unsigned long long n, int up)
 		x /= 16;
 		size++;
 	}
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (str)
+	ft_strcat(str, "0x");
+	str[size + 3] = '\0';
+	while (size >= 0)
 	{
-		str[size + 1] = '\0';
-		while (size)
-		{
-			x = n % 16;
-			str[size] = switch_hexa(x, up);
-			n /= 16;
-			size--;
-		}
+		x = n % 16;
+		str[size + 2] = switch_hexa(x);
+		n /= 16;
+		size--;
 	}
-	return (str);
+	ft_putstr(str);
 }
