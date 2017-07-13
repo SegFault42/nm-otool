@@ -17,6 +17,6 @@ typedef struct	s_setup
 
 char	*setup_unset(int argc, char *argv, t_setup *stp, char flag);
 void	handle_64(char *ptr);
-
+void	handle_32(char *ptr);
 
 #endif

@@ -98,27 +98,24 @@ static void	print_output_32(struct symtab_command *sym, struct mach_header *head
 		ft_strcat(output[i], " ");
 
 
-		if (header->filetype == MH_EXECUTE)
-		{
-			if ((array[i].n_type ^ array[i].n_sect) == 0x1)
-				ft_strcat(output[i], "U ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 15 || (array[i].n_type ^ array[i].n_sect) == 37 || (array[i].n_type ^ array[i].n_sect) == 31)
-				ft_strcat(output[i], "t ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 29)
-				ft_strcat(output[i], "S ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 5 ||
-					(array[i].n_type ^ array[i].n_sect) == 19 ||
-					(array[i].n_type ^ array[i].n_sect) == 32 ||
-					(array[i].n_type ^ array[i].n_sect) == 45 ||
-					(array[i].n_type ^ array[i].n_sect) == 24)
-				ft_strcat(output[i], "s ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 14)
-				ft_strcat(output[i], "T ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 0 || (array[i].n_type ^ array[i].n_sect) == 40)
-				ft_strcat(output[i], "b ");
-			else
-				ft_strcat(output[i], "0 ");
-		}
+		if ((array[i].n_type ^ array[i].n_sect) == 0x1)
+			ft_strcat(output[i], "U ");
+		else if ((array[i].n_type ^ array[i].n_sect) == 15 || (array[i].n_type ^ array[i].n_sect) == 37 || (array[i].n_type ^ array[i].n_sect) == 31)
+			ft_strcat(output[i], "t ");
+		else if ((array[i].n_type ^ array[i].n_sect) == 29)
+			ft_strcat(output[i], "S ");
+		else if ((array[i].n_type ^ array[i].n_sect) == 5 ||
+				(array[i].n_type ^ array[i].n_sect) == 19 ||
+				(array[i].n_type ^ array[i].n_sect) == 32 ||
+				(array[i].n_type ^ array[i].n_sect) == 45 ||
+				(array[i].n_type ^ array[i].n_sect) == 24)
+			ft_strcat(output[i], "s ");
+		else if ((array[i].n_type ^ array[i].n_sect) == 14)
+			ft_strcat(output[i], "T ");
+		else if ((array[i].n_type ^ array[i].n_sect) == 0 || (array[i].n_type ^ array[i].n_sect) == 40)
+			ft_strcat(output[i], "b ");
+		else
+			ft_strcat(output[i], "0 ");
 		ft_strcat(output[i], stringtable + array[i].n_un.n_strx); // stock le nom
 		/*ft_strcat(output[i], " ");*/
 		/*ft_strcat(output[i], ft_itoa(array[i].n_type)); // debug flag*/

@@ -24,6 +24,7 @@ SRC = ./source_otool
 SRCS = $(SRC)/main.c \
 	   $(SRC)/setup.c \
 	   $(SRC)/file_64.c \
+	   $(SRC)/file_32.c \
 
 INCLUDE = -I ./include/ -I ./libft/includes/
 
