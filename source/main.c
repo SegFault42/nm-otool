@@ -7,8 +7,8 @@ static void	nm(char *ptr)
 	magic_number = *(uint32_t *)(void *)ptr;
 	if (magic_number == MH_MAGIC_64)
 		handle_64(ptr);
-	else if (magic_number == MH_MAGIC)
-		handle_32(ptr);
+	/*else if (magic_number == MH_MAGIC)*/
+		/*handle_32(ptr);*/
 	else
 		ft_dprintf(2, RED"NOT SUPPORTED YET :(\n"END);
 }

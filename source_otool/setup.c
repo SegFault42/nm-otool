@@ -7,11 +7,9 @@ char *setup_unset(int argc, char *argv, t_setup *setup, char flag)
 		setup->fd = open(argv, O_RDONLY);
 		if (setup->fd == -1)
 		{
-			ft_dprintf(STDERR_FILENO, "error: ./ft_nm: can't open file: %s (No such file or directory)\n", argv);
+			ft_dprintf(STDERR_FILENO, "error: ./ft_otool: can't open file: %s (No such file or directory)\n", argv);
 			return (NULL);
 		}
-		if (argc > 2)
-			ft_dprintf(1, "\n%s:\n", argv);
 		if (fstat(setup->fd, &setup->buf) == -1)
 		{
 			ft_dprintf(STDERR_FILENO, "fstat failure\n");

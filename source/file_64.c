@@ -55,8 +55,8 @@ static void	delete_same_value_64(char **array, int nb)
 			ft_strdel(&array[i]);
 		if (array[i] && ft_strlen(array[i]) == 19)
 			ft_strdel(&array[i]);
-		if (array[i] && array[i][17] == '0')
-			ft_strdel(&array[i]);
+		/*if (array[i] && array[i][17] == '0')*/
+			/*ft_strdel(&array[i]);*/
 		++i;
 	}
 	swap_64(array, nb);
@@ -70,6 +70,10 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 	struct nlist_64	*array;
 	char			**output;
 	char			*hexa_itoa;
+	size_t			flag;
+	size_t			flag_xor;
+	size_t			flag_and;
+	size_t			flag_or;
 
 	i = 0;
 	array = (void *)ptr + sym->symoff;
@@ -80,7 +84,10 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 		ft_critical_error(MALLOC_ERROR);
 	while (i < sym->nsyms)
 	{
-		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 +2);
+		flag_and = (array[i].n_type & array[i].n_sect);
+		flag_or = (array[i].n_type | array[i].n_sect);
+		flag_xor = (array[i].n_type ^ array[i].n_sect);
+		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 +29);
 		if (!output)
 			ft_critical_error(MALLOC_ERROR);
 		if (array[i].n_value)
@@ -112,47 +119,101 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 		}
 		else if (header->filetype == MH_OBJECT)
 		{
-			if ((array[i].n_type ^ array[i].n_sect) == 0x1)
+			if ((flag_xor) == 0x1)
 				ft_strcat(output[i], "U ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 15)
+			else if ((flag_xor) == 15)
 				ft_strcat(output[i], "t ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 14)
+			else if ((flag_xor) == 14)
 			{
 				if (ft_strncmp(output[i], "                ", 16) == 0)
 					ft_memset(output[i], '0', 16);
 				ft_strcat(output[i], "T ");
 			}
-			else if ((array[i].n_type ^ array[i].n_sect) == 7)
+			else if ((flag_xor) == 7)
 				ft_strcat(output[i], "S ");
 			else
 				ft_strcat(output[i], "0 ");
 		}
 		else if (header->filetype == MH_BUNDLE)
 		{
-			if ((array[i].n_type ^ array[i].n_sect) == 14)
+			if ((flag_xor) == 14)
 				ft_strcat(output[i], "T ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 1)
+			else if ((flag_xor) == 1)
 				ft_strcat(output[i], "U ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 0 ||
-					(array[i].n_type ^ array[i].n_sect) == 22 ||
-					(array[i].n_type ^ array[i].n_sect) == 21 ||
-					(array[i].n_type ^ array[i].n_sect) == 26)
+			else if ((flag_xor) == 0 ||
+					(flag_xor) == 22 ||
+					(flag_xor) == 21 ||
+					(flag_xor) == 26)
 				ft_strcat(output[i], "S ");
 			else
 				ft_strcat(output[i], "0 ");
 		}
 		else if (header->filetype == MH_DYLIB)
 		{
-			if ((array[i].n_type ^ array[i].n_sect) == 1)
-				ft_strcat(output[i], "U ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 14)
-				ft_strcat(output[i], "T ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 15)
+			/*if ((flag_xor) == 1)*/
+				/*ft_strcat(output[i], "U ");*/
+			/*else if ((flag_xor) == 14)*/
+				/*ft_strcat(output[i], "T ");*/
+			/*else if ((flag_xor) == 15 || (flag_xor) == 31)*/
+				/*ft_strcat(output[i], "t ");*/
+			/*else if ((flag == 12 && flag_xor == 19) || (flag_xor) == 8 || (flag_xor) == 10 || (flag_xor) == 11 || (flag == 6 && flag_xor == 24) || (flag == 12 && flag_xor == 2))*/
+				/*ft_strcat(output[i], "s ");*/
+			/*else if ((flag_xor) == 45 || (flag_xor) == 19 || (flag_xor == 16 && flag == 14) || (flag_xor == 0 && flag == 14))*/
+				/*ft_strcat(output[i], "d ");*/
+			/*else if ((flag_xor == 2 && flag == 13) || (flag_xor) == 9 || (flag_xor) == 4 || (flag_xor) == 3 || (flag_xor) == 26 || (flag_xor) == 24)*/
+				/*ft_strcat(output[i], "S ");*/
+			/*else if ((flag_xor) == 25 || (flag_xor) == 2)*/
+				/*ft_strcat(output[i], "D ");*/
+			if (flag_xor == 31 && flag_or == 31 && flag_and == 0)
 				ft_strcat(output[i], "t ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 45)
-				ft_strcat(output[i], "d ");
-			else if ((array[i].n_type ^ array[i].n_sect) == 3)
+			else if (flag_xor == 15 && flag_or == 15 && flag_and == 0)
+				ft_strcat(output[i], "t ");
+			else if (flag_xor == 26 && flag_or == 30 && flag_and == 4)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 10 && flag_or == 14 && flag_and == 4)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 4 && flag_or == 14 && flag_and == 10)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 11 && flag_or == 15 && flag_and == 4)
 				ft_strcat(output[i], "S ");
+			else if (flag_xor == 19 && flag_or == 31 && flag_and == 12)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 24 && flag_or == 30 && flag_and == 6)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 8 && flag_or == 14 && flag_and == 6)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 11 && flag_or == 15 && flag_and == 14)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 15 && flag_or == 15 && flag_and == 0)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 3 && flag_or == 15 && flag_and == 12)
+				ft_strcat(output[i], "s ");
+			else if (flag_xor == 9 && flag_or == 15 && flag_and == 6)
+				ft_strcat(output[i], "S ");
+			else if (flag_xor == 2 && flag_or == 15 && flag_and == 13)
+				ft_strcat(output[i], "S ");
+			else if (flag_xor == 4 && flag_or == 15 && flag_and == 11)
+				ft_strcat(output[i], "S ");
+			else if (flag_xor == 5 && flag_or == 15 && flag_and == 10)
+				ft_strcat(output[i], "S ");
+			else if (flag_xor == 10 && flag_or == 15 && flag_and == 5)
+				ft_strcat(output[i], "S ");
+			else if (flag_xor == 14 && flag_or == 15 && flag_and == 1)
+				ft_strcat(output[i], "T ");
+			else if (flag_xor == 1 && flag_or == 1 && flag_and == 0)
+				ft_strcat(output[i], "U ");
+			else if (flag_xor == 1 && flag_or == 15 && flag_and == 14 && array[i].n_desc == 128)
+				ft_strcat(output[i], "D ");
+			else if (flag_xor == 1 && flag_or == 15 && flag_and == 14 && array[i].n_desc == 0)
+				ft_strcat(output[i], "b ");
+			else if (flag_xor == 2 && flag_or == 14 && flag_and == 12)
+				ft_strcat(output[i], "b ");
+			else if (flag_xor == 8 && flag_or == 14 && flag_and == 6)
+				ft_strcat(output[i], "d ");
+			else if (flag_xor == 16 && flag_or == 30 && flag_and == 14)
+				ft_strcat(output[i], "d ");
+			else if (flag_xor == 0 && flag_or == 14 && flag_and == 14)
+				ft_strcat(output[i], "d ");
 			else
 				ft_strcat(output[i], "0 ");
 		}
@@ -165,8 +226,14 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 		/*printf("n_value = %lld\n", array[i].n_value);*/
 		/*printf("%d\n", array[i].n_type & array[i].n_sect);*/
 
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa(array[i].n_type ^ array[i].n_sect)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)flag_xor)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)flag_or)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)flag_and)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)array[i].n_desc)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
 		++i;
 	}
 	ft_sort_double_array(output);
