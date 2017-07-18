@@ -9,15 +9,13 @@ static void	print_otool_32(struct section *sec, char *ptr)
 
 	data = (unsigned char*)ptr + (sec)->offset;
 	i = 0;
-	/*ft_dprintf(1, "%x\t", (sec)->addr);*/
-	/*ft_print_hexa((unsigned long long)sec->addr);*/
 	itoa = ft_hexa_itoa(sec->addr, 0);
 	ft_dprintf(1, "0000%s ", itoa);
 	free(itoa);
 	size = (sec)->size;
 	while (i < size)
 	{
-		if ((data[i] >= 0 && data[i] <= 15)/* || (data[i] >= 11 && data[i] <= 16)*/)
+		if ((data[i] >= 0 && data[i] <= 15))
 			ft_dprintf(1, "0");
 		ft_dprintf(1, "%x ", data[i]);
 		i++;
@@ -60,6 +58,11 @@ void	handle_32(char *ptr)
 	i = 0;
 	header = (struct mach_header *)ptr;
 	lc = (void*)(ptr + sizeof(struct mach_header));
+	if (header->filetype > 0xb)
+	{
+		printf(RED"Invalid file\n"END);
+		return ;
+	}
 	while (i < header->ncmds)
 	{
 		if (lc->cmd == LC_SEGMENT)

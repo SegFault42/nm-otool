@@ -19,7 +19,7 @@ static void	print_otool_64(struct section_64 *sec, char *ptr)
 	size = (sec)->size;
 	while (i < size)
 	{
-		if ((data[i] >= 0 && data[i] <= 15)/* || (data[i] >= 11 && data[i] <= 16)*/)
+		if ((data[i] >= 0 && data[i] <= 15))
 			ft_dprintf(1, "0");
 		ft_dprintf(1, "%x ", data[i]);
 		i++;
@@ -66,6 +66,11 @@ void	handle_64(char *ptr)
 	i = 0;
 	header = (struct mach_header_64*)ptr;
 	lc = (void*)(ptr + sizeof(struct mach_header_64));
+	if (header->filetype > 0xb)
+	{
+		printf(RED"Invalid file\n"END);
+		return ;
+	}
 	while (i < header->ncmds)
 	{
 		if (lc->cmd == LC_SEGMENT_64)
