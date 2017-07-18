@@ -15,14 +15,9 @@ static void	swap(char **array, int nb)
 				j--;
 			array[i] = ft_strdup(array[j]);
 			ft_strdel(&array[j]);
-			/*array[j] = NULL;*/
 		}
 		++i;
 	}
-	/*for (int a = 0; a < nb; ++a)*/
-		/*printf("%s\n", array[a]);*/
-	/*ft_print_2d_tab(array);*/
-	/*sleep(10);*/
 }
 
 static void	delete_same_value(char **array, int nb)
@@ -117,16 +112,6 @@ static void	print_output_32(struct symtab_command *sym, struct mach_header *head
 		else
 			ft_strcat(output[i], "0 ");
 		ft_strcat(output[i], stringtable + array[i].n_un.n_strx); // stock le nom
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa(array[i].n_type)); // debug flag*/
-		/*printf("%s ", output[i]);*/
-		/*printf("n_type = %d | ", array[i].n_type);*/
-		/*printf("n_sect = %d |", array[i].n_sect); // debug print for symbole*/
-		/*printf("n_desc = %d |", array[i].n_desc);*/
-		/*printf("n_value = %d\n", array[i].n_value);*/
-		/*printf("%d\n", array[i].n_type | array[i].n_sect);*/
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa(array[i].n_type ^ array[i].n_sect)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
 		++i;
 	}
 	ft_sort_double_array_32(output);
@@ -148,18 +133,16 @@ void	handle_32(char *ptr)
 	header = (void *)ptr; // header pointe sur ptr (octet 0 du binaire)
 	ncmds = header->ncmds; // ncmds contient le nombre de load_command
 	lc = (void *)ptr + sizeof(struct mach_header); // lc pointe sur le debut de la zone des load commands (juste apres le header)
+	if (header->filetype > 0xb)
+	{
+		printf(RED"Invalid file\n"END);
+		return ;
+	}
 	while (i < ncmds) // on iter autant de fois qu'il y a de load commands
 	{
 		if (lc->cmd == LC_SYMTAB) // si la cmd est egal a LC_SYMTAB
 		{
 			sym = (struct symtab_command *)lc;
-			/*printf("cmdsize =					%d\n", sym->cmdsize);*/
-			/*printf("symbol tab offset =				%d\n", sym->symoff);*/
-			/*printf("number of symbol table entries =		%d\n", sym->nsyms);*/
-			/*printf("string table offset =				%d\n", sym->stroff);*/
-			/*printf("string table size in byte =			%d\n", sym->strsize);*/
-			/*RC;*/
-			/*printf("%d\n", header->filetype);*/
 			print_output_32(sym, header, ptr);
 			break ;
 		}

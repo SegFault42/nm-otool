@@ -16,7 +16,7 @@ static void	o_tool(char *ptr, char *argv)
 		handle_32(ptr);
 	}
 	else
-		ft_dprintf(2, RED"%s NOT SUPPORTED YET :(\n"END, argv);
+		ft_dprintf(2, RED"%s File not supported\n"END, argv);
 }
 
 int	main(int argc, char **argv)
@@ -31,7 +31,6 @@ int	main(int argc, char **argv)
 		setup.ptr = setup_unset(argc, argv[i], &setup, 's');
 		if (!setup.ptr)
 			continue ;
-			/*return (EXIT_FAILURE);*/
 		o_tool(setup.ptr, argv[i]);
 		if (setup_unset(argc, argv[i], &setup, 'u') == (char *)-1)
 			return (EXIT_FAILURE);

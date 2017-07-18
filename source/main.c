@@ -36,7 +36,6 @@ int	main(int argc, char **argv)
 			setup.ptr = setup_unset(argc, argv[i], &setup, 's');
 			if (!setup.ptr)
 				continue ;
-				/*return (EXIT_FAILURE);*/
 			nm(setup.ptr);
 			if (setup_unset(argc, argv[i], &setup, 'u') == (char *)-1)
 				return (EXIT_FAILURE);

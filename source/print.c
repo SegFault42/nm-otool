@@ -30,14 +30,6 @@ void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
 		else
 			ft_strxcat(output[i], " ", 16);
 		ft_strcat(output[i], " ");
-
-		/*printf("%s ", output[i]);*/
-		/*printf("n_type = %d | ", array[i].n_type);*/
-		/*printf("n_sect = %d |", array[i].n_sect); // debug print for symbole*/
-		/*printf("n_desc = %d |", array[i].n_desc);*/
-		/*printf("n_value = %lld\n", array[i].n_value);*/
-		/*printf("%d\n", array[i].n_type & array[i].n_sect);*/
-
 		if ((array[i].n_type & array[i].n_sect) == 0x0)
 			ft_strcat(output[i], "U ");
 		else if ((array[i].n_type & array[i].n_sect) == 0x1)
@@ -52,9 +44,7 @@ void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
 			ft_strcat(output[i], "b ");
 		else
 			ft_strcat(output[i], "0 ");
-		ft_strcat(output[i], stringtable + array[i].n_un.n_strx); // stock le nom
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa(array[i].n_type)); // debug flag*/
+		ft_strcat(output[i], stringtable + array[i].n_un.n_strx);
 		++i;
 	}
 	ft_sort_double_array(output);

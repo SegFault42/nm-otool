@@ -266,25 +266,17 @@ void	handle_64(char *ptr)
 	header = (void *)ptr; // header pointe sur ptr (octet 0 du binaire)
 	ncmds = header->ncmds; // ncmds contient le nombre de load_command
 	lc = (void *)ptr + sizeof(struct mach_header_64); // lc pointe sur le debut de la zone des load commands (juste apres le header)
+	if (header->filetype > 0xb)
+	{
+		printf(RED"Invalid file\n"END);
+		return ;
+	}
 	while (i < ncmds) // on iter autant de fois qu'il y a de load commands
 	{
 		if (lc->cmd == LC_SYMTAB) // si la cmd est egal a LC_SYMTAB
 		{
 			sym = (struct symtab_command *)lc;
-			/*printf("cmdsize =					%d\n", sym->cmdsize);*/
-			/*printf("symbol tab offset =				%d\n", sym->symoff);*/
-			/*printf("number of symbol table entries =		%d\n", sym->nsyms);*/
-			/*printf("string table offset =				%d\n", sym->stroff);*/
-			/*printf("string table size in byte =			%d\n", sym->strsize);*/
-			/*RC;*/
 			print_output_64(sym, header, ptr);
-			/*if (header->filetype == MH_OBJECT)*/
-			/*print_output_obj_64(sym->nsyms, sym->symoff, sym->stroff, ptr);*/
-			/*else if (header->filetype == MH_EXECUTE)*/
-			/*else if (header->filetype == MH_DYLIB)*/
-			/*;// dynamic lib*/
-			/*else if (header->filetype == MH_BUNDLE)*/
-			/*;// bundle*/
 			break ;
 		}
 		lc = (void *)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize
