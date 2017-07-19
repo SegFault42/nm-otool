@@ -32,14 +32,15 @@ static void	print_output_32(struct load_command *lc, uint32_t filetype, char *pt
 {
 	struct segment_command	*seg;
 	struct section			*sec;
-	unsigned int				i;
+	unsigned int			i;
 
 	i = 0;
 	seg = (struct segment_command *)lc;
 	sec = (struct section *)((char *)seg + sizeof(struct segment_command));
 	while (i < seg->nsects)
 	{
-		if (ft_strcmp(sec->sectname, SECT_TEXT) == 0 && ft_strcmp(sec->segname, SEG_TEXT) == 0)
+		if (ft_strcmp(sec->sectname, SECT_TEXT) == 0 &&
+			ft_strcmp(sec->segname, SEG_TEXT) == 0)
 		{
 			if (filetype == MH_EXECUTE)
 				print_otool_32(sec, ptr);
@@ -52,8 +53,8 @@ static void	print_output_32(struct load_command *lc, uint32_t filetype, char *pt
 void	handle_32(char *ptr)
 {
 	struct mach_header	*header;
-	struct load_command		*lc;
-	unsigned int			i;
+	struct load_command	*lc;
+	unsigned int		i;
 
 	i = 0;
 	header = (struct mach_header *)ptr;

@@ -1,5 +1,22 @@
 #include "nm.h"
 
+static char	*symbol(uint8_t n_type, uint8_t n_sect)
+{
+	if ((n_type & n_sect) == 0x0)
+		return ("U");
+	else if ((n_type & n_sect) == 0x1)
+		return ("T");
+	else if ((n_type & n_sect) == 0x8)
+		return ("d");
+	else if ((n_type & n_sect) == 0x9 || (n_type & n_sect) == 0xc)
+		return ("d");
+	else if ((n_type & n_sect) == 0xb || (n_type & n_sect) == 0xd)
+		return ("S");
+	else if ((n_type & n_sect) == 0xa)
+		return ("b");
+	return ("0");
+}
+
 void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
 {
 	uint32_t		i;
@@ -17,7 +34,7 @@ void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
 		ft_critical_error(MALLOC_ERROR);
 	while (i < nsyms)
 	{
-		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 +2);
+		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 + 2);
 		if (!output)
 			ft_critical_error(MALLOC_ERROR);
 		if (array[i].n_value)
@@ -30,20 +47,8 @@ void	print_output(uint32_t nsyms, uint32_t symoff, uint32_t stroff, char *ptr)
 		else
 			ft_strxcat(output[i], " ", 16);
 		ft_strcat(output[i], " ");
-		if ((array[i].n_type & array[i].n_sect) == 0x0)
-			ft_strcat(output[i], "U ");
-		else if ((array[i].n_type & array[i].n_sect) == 0x1)
-			ft_strcat(output[i], "T ");
-		else if ((array[i].n_type & array[i].n_sect) == 0x8)
-			ft_strcat(output[i], "d ");
-		else if ((array[i].n_type & array[i].n_sect) == 0x9 || (array[i].n_type & array[i].n_sect) == 0xc)
-			ft_strcat(output[i], "D ");
-		else if ((array[i].n_type & array[i].n_sect) == 0xb || (array[i].n_type & array[i].n_sect) == 0xd)
-			ft_strcat(output[i], "S ");
-		else if ((array[i].n_type & array[i].n_sect) == 0xa)
-			ft_strcat(output[i], "b ");
-		else
-			ft_strcat(output[i], "0 ");
+		ft_strcat(output[i], symbol(array[i].n_type, array[i].n_sect));
+
 		ft_strcat(output[i], stringtable + array[i].n_un.n_strx);
 		++i;
 	}

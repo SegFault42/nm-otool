@@ -37,7 +37,8 @@ static void	delete_same_value(char **array, int nb)
 		{
 			if ((array[j] && ft_strcmp(array[i], array[j]) == 0))
 				ft_strdel(&array[j]);
-			if ((array[j] && ft_strcmp(&array[i][11], &array[j][11]) == 0) && ft_strncmp(array[i], "        ", 8) == 0)
+			if ((array[j] && ft_strcmp(&array[i][11], &array[j][11]) == 0) &&
+			ft_strncmp(array[i], "        ", 8) == 0)
 			{
 				ft_strdel(&array[i]);
 				j = nb;

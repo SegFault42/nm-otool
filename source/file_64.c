@@ -15,40 +15,16 @@ static void	swap_64(char **array, int nb)
 				j--;
 			array[i] = ft_strdup(array[j]);
 			ft_strdel(&array[j]);
-			/*array[j] = NULL;*/
 		}
 		++i;
 	}
-	/*for (int a = 0; a < nb; ++a)*/
-	/*printf("%s\n", array[a]);*/
-	/*ft_print_2d_tab(array);*/
-	/*sleep(10);*/
 }
 
 static void	delete_same_value_64(char **array, int nb)
 {
 	int	i;
-	/*int	j;*/
 
 	i = 0;
-	/*j = 0;*/
-	/*while (i < nb)*/
-	/*{*/
-		/*while (array[i] == NULL)*/
-			/*++i;*/
-		/*j = i;*/
-		/*++j;*/
-		/*while (j < nb)*/
-		/*{*/
-			/*if (array[j] == NULL)*/
-				/*++j;*/
-			/*if (array[j] && array[i] && ft_strcmp(array[i], array[j]) == 0)*/
-				/*ft_strdel(&array[j]);*/
-			/*++j;*/
-		/*}*/
-		/*++i;*/
-	/*}*/
-	/*i = 0;*/
 	while (i < nb)
 	{
 		if (array[i] && array[i][19] == '/')

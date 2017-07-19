@@ -1,5 +1,22 @@
 #include "nm.h"
 
+static void	loop(unsigned char *d, uint64_t i, uint64_t s, struct section_64 *c)
+{
+	int				j;
+	char			*itoa;
+
+	if (i % 16 == 0 && i != s)
+	{
+		RC;
+		itoa = ft_hexa_itoa(c->addr + i, 0);
+		j = ft_strlen(itoa) - 1;
+		while (++j < 16)
+			ft_dprintf(1, "0");
+		ft_dprintf(1, "%s ", itoa);
+		free(itoa);
+	}
+}
+
 static void	print_otool_64(struct section_64 *sec, char *ptr)
 {
 	uint64_t		i;
@@ -23,20 +40,11 @@ static void	print_otool_64(struct section_64 *sec, char *ptr)
 			ft_dprintf(1, "0");
 		ft_dprintf(1, "%x ", data[i]);
 		i++;
-		if (i % 16 == 0 && i != size)
-		{
-			RC;
-			itoa = ft_hexa_itoa(sec->addr + i, 0);
-			j = ft_strlen(itoa) - 1;
-			while (++j < 16)
-				ft_dprintf(1, "0");
-			ft_dprintf(1, "%s ", itoa);
-			free(itoa);
-		}
+		loop(data, i, size, sec);
 	}
 }
 
-static bool	print_output_64(struct load_command *lc, uint32_t filetype, char *ptr)
+static bool	print_output_64(struct load_command *lc, uint32_t filetype, char *p)
 {
 	struct segment_command_64	*seg;
 	struct section_64			*sec;
@@ -44,13 +52,15 @@ static bool	print_output_64(struct load_command *lc, uint32_t filetype, char *pt
 
 	i = 0;
 	seg = (struct segment_command_64*)lc;
-	sec = (struct section_64 *)((char *)seg + sizeof(struct segment_command_64));
+	sec = (struct section_64 *)((char *)seg +
+			sizeof(struct segment_command_64));
 	if (seg->vmsize == 0)
 		return false;
 	while (i < seg->nsects)
 	{
-		if (ft_strcmp(sec->sectname, SECT_TEXT) == 0 && ft_strcmp(sec->segname, SEG_TEXT) == 0)
-			print_otool_64(sec, ptr);
+		if (ft_strcmp(sec->sectname, SECT_TEXT) == 0 &&
+			ft_strcmp(sec->segname, SEG_TEXT) == 0)
+			print_otool_64(sec, p);
 		sec++;
 		i++;
 	}
