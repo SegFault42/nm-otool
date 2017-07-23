@@ -1,4 +1,4 @@
-#include "nm.h"
+#include "otool.h"
 
 static void	print_otool_32(struct section *sec, char *ptr)
 {

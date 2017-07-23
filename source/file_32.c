@@ -1,9 +1,9 @@
 #include "nm.h"
 
-static void	swap(char **array, int nb)
+static void	swap(char **array, uint32_t nb)
 {
-	int i;
-	int j;
+	uint32_t	i;
+	uint32_t	j;
 
 	i = 0;
 	j = nb;
@@ -20,13 +20,12 @@ static void	swap(char **array, int nb)
 	}
 }
 
-static void	delete_same_value(char **array, int nb)
+static void	delete_same_value(char **array, uint32_t nb)
 {
-	int	i;
-	int j;
+	uint32_t	i;
+	uint32_t	j;
 
 	i = 0;
-	j = 0;
 	while (i < nb)
 	{
 		while (!array[i])
@@ -62,7 +61,7 @@ static void	delete_same_value(char **array, int nb)
 	swap(array, nb);
 }
 
-static void	print_output_32(struct symtab_command *sym, struct mach_header *header, char *ptr)
+static void	print_output_32(struct symtab_command *sym, char *ptr)
 {
 	uint32_t		i;
 	char			*stringtable;
@@ -144,7 +143,7 @@ void	handle_32(char *ptr)
 		if (lc->cmd == LC_SYMTAB) // si la cmd est egal a LC_SYMTAB
 		{
 			sym = (struct symtab_command *)lc;
-			print_output_32(sym, header, ptr);
+			print_output_32(sym, ptr);
 			break ;
 		}
 		lc = (void *)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize

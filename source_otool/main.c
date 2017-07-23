@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/23 20:39:17 by rabougue          #+#    #+#             */
+/*   Updated: 2017/07/23 20:40:04 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "otool.h"
 
 static void	o_tool(char *ptr, char *argv)
@@ -28,11 +40,11 @@ int	main(int argc, char **argv)
 	ft_memset(&setup, 0, sizeof(t_setup));
 	while (++i < argc)
 	{
-		setup.ptr = setup_unset(argc, argv[i], &setup, 's');
+		setup.ptr = setup_unset(argv[i], &setup, 's');
 		if (!setup.ptr)
 			continue ;
 		o_tool(setup.ptr, argv[i]);
-		if (setup_unset(argc, argv[i], &setup, 'u') == (char *)-1)
+		if (setup_unset(argv[i], &setup, 'u') == (char *)-1)
 			return (EXIT_FAILURE);
 	}
 	return (0);

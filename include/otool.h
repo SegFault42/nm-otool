@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   otool.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/23 20:42:27 by rabougue          #+#    #+#             */
+/*   Updated: 2017/07/23 20:42:34 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OTOOL_H
 # define OTOOL_H
 
@@ -15,7 +27,7 @@ typedef struct	s_setup
 	char		pad[4];
 }				t_setup;
 
-char	*setup_unset(int argc, char *argv, t_setup *stp, char flag);
+char	*setup_unset(char *argv, t_setup *stp, char flag);
 void	handle_64(char *ptr);
 void	handle_32(char *ptr);
 

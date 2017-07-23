@@ -1,9 +1,9 @@
 #include "nm.h"
 
-static void	swap_64(char **array, int nb)
+static void	swap_64(char **array, uint32_t nb)
 {
-	int i;
-	int j;
+	uint32_t	i;
+	uint32_t	j;
 
 	i = 0;
 	j = nb;
@@ -20,9 +20,9 @@ static void	swap_64(char **array, int nb)
 	}
 }
 
-static void	delete_same_value_64(char **array, int nb)
+static void	delete_same_value_64(char **array, uint32_t nb)
 {
-	int	i;
+	uint32_t	i;
 
 	i = 0;
 	while (i < nb)

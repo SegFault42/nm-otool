@@ -1,9 +1,21 @@
-#include "nm.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_64.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/23 20:43:57 by rabougue          #+#    #+#             */
+/*   Updated: 2017/07/23 20:50:01 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	loop(unsigned char *d, uint64_t i, uint64_t s, struct section_64 *c)
+#include "otool.h"
+
+static void	loop(uint64_t i, uint64_t s, struct section_64 *c)
 {
-	int				j;
-	char			*itoa;
+	size_t	j;
+	char	*itoa;
 
 	if (i % 16 == 0 && i != s)
 	{
@@ -23,7 +35,7 @@ static void	print_otool_64(struct section_64 *sec, char *ptr)
 	uint64_t		size;
 	unsigned char	*data;
 	char			*itoa;
-	int				j;
+	size_t			j;
 
 	i = 0;
 	data = (unsigned char*)ptr + (sec)->offset;
@@ -40,11 +52,11 @@ static void	print_otool_64(struct section_64 *sec, char *ptr)
 			ft_dprintf(1, "0");
 		ft_dprintf(1, "%x ", data[i]);
 		i++;
-		loop(data, i, size, sec);
+		loop(i, size, sec);
 	}
 }
 
-static bool	print_output_64(struct load_command *lc, uint32_t filetype, char *p)
+static bool	print_output_64(struct load_command *lc, char *p)
 {
 	struct segment_command_64	*seg;
 	struct section_64			*sec;
@@ -84,7 +96,7 @@ void	handle_64(char *ptr)
 	while (i < header->ncmds)
 	{
 		if (lc->cmd == LC_SEGMENT_64)
-			if (print_output_64(lc, header->filetype, ptr) == false)
+			if (print_output_64(lc, ptr) == false)
 				return ;
 		lc = (void*)lc + lc->cmdsize;
 		i++;

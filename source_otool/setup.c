@@ -1,6 +1,18 @@
-#include "nm.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/23 20:38:38 by rabougue          #+#    #+#             */
+/*   Updated: 2017/07/23 20:43:32 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char *setup_unset(int argc, char *argv, t_setup *setup, char flag)
+#include "otool.h"
+
+char *setup_unset(char *argv, t_setup *setup, char flag)
 {
 	if (flag == 's')
 	{
