@@ -6,7 +6,7 @@
 #    By: rabougue <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/10 19:16:51 by rabougue          #+#    #+#              #
-#    Updated: 2017/01/18 21:47:46 by rabougue         ###   ########.fr        #
+#    Updated: 2017/07/24 16:43:37 by rabougue         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ END = \033[0m
 ##################################_COMPILATION_#################################
 NAME = ft_otool
 CC = clang
-FLAG = -Weverything -g
+FLAG = -Wall -Werror -Wextra -g
 LFT = ./libft/libft.a
 SRC = ./source_otool
 SRCS = $(SRC)/main.c \

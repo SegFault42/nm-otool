@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/23 20:43:57 by rabougue          #+#    #+#             */
-/*   Updated: 2017/07/23 20:50:01 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/07/24 17:10:46 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	loop(uint64_t i, uint64_t s, struct section_64 *c)
 		j = ft_strlen(itoa) - 1;
 		while (++j < 16)
 			ft_dprintf(1, "0");
-		ft_dprintf(1, "%s ", itoa);
+		ft_dprintf(1, "%s	", itoa);
 		free(itoa);
 	}
 }
@@ -43,7 +43,7 @@ static void	print_otool_64(struct section_64 *sec, char *ptr)
 	j = ft_strlen(itoa) - 1;
 	while (++j < 16)
 		ft_dprintf(1, "0");
-	ft_dprintf(1, "%s ", itoa);
+	ft_dprintf(1, "%s	", itoa);
 	free(itoa);
 	size = (sec)->size;
 	while (i < size)
@@ -63,7 +63,7 @@ static bool	print_output_64(struct load_command *lc, char *p)
 	unsigned int				i;
 
 	i = 0;
-	seg = (struct segment_command_64*)lc;
+	seg = (struct segment_command_64 *)lc;
 	sec = (struct section_64 *)((char *)seg +
 			sizeof(struct segment_command_64));
 	if (seg->vmsize == 0)

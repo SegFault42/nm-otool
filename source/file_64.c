@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_64.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/24 20:26:46 by rabougue          #+#    #+#             */
+/*   Updated: 2017/07/24 20:26:48 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "nm.h"
 
 static void	swap_64(char **array, uint32_t nb)
@@ -18,6 +30,37 @@ static void	swap_64(char **array, uint32_t nb)
 		}
 		++i;
 	}
+	i = 0;
+	while (array[i])
+		++i;
+	if (!array[i] && array[i + 1] && (i + 1) <= nb)
+	{
+		array[i] = ft_strdup(array[i + 1]);
+		ft_strdel(&array[i + 1]);
+	}
+}
+
+static void	free_same(char **array, uint32_t nb)
+{
+	uint32_t	i;
+	uint32_t	j;
+
+	i = 0;
+	j = 1;
+	while (i < nb)
+	{
+		while (!array[i])
+			++i;
+		j = i;
+		++j;
+		while (j < nb)
+		{
+			if (array[i] && array[j] && ft_strequ(&array[i][19], &array[j][19]) == 1)
+				ft_strdel(&array[j]);
+			++j;
+		}
+		++i;
+	}
 }
 
 static void	delete_same_value_64(char **array, uint32_t nb)
@@ -25,6 +68,7 @@ static void	delete_same_value_64(char **array, uint32_t nb)
 	uint32_t	i;
 
 	i = 0;
+	free_same(array, nb);
 	while (i < nb)
 	{
 		if (array[i] && array[i][19] == '/')
@@ -33,9 +77,10 @@ static void	delete_same_value_64(char **array, uint32_t nb)
 			ft_strdel(&array[i]);
 		if (array[i] && array[i][17] == '0')
 			ft_strdel(&array[i]);
+		if (array[i] && array[i][19] != '_' && ft_strequ(&array[i][19], "dyld_stub_binder") == 0)
+			ft_strdel(&array[i]);
 		++i;
 	}
-	swap_64(array, nb);
 	swap_64(array, nb);
 }
 
@@ -64,7 +109,7 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 		flag_or = (array[i].n_type | array[i].n_sect);
 		flag_xor = (array[i].n_type ^ array[i].n_sect);
 		flag = (array[i].n_type & array[i].n_sect) + (array[i].n_type | array[i].n_sect) + (array[i].n_type ^ array[i].n_sect);
-		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 +29);
+		output[i] = (char *)ft_memalloc(sizeof(char) * 19 + ft_strlen(stringtable + array[i].n_un.n_strx) + 1 + 29);
 		if (!output)
 			ft_critical_error(MALLOC_ERROR);
 		if (array[i].n_value)

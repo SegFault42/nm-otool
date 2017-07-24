@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/23 20:39:17 by rabougue          #+#    #+#             */
-/*   Updated: 2017/07/23 20:40:04 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/07/24 16:53:00 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	o_tool(char *ptr, char *argv)
 	magic_number = *(uint32_t *)(void *)ptr;
 	if (magic_number == MH_MAGIC_64)
 	{
-		ft_dprintf(1, "%s:\n(__TEXT,__text) section\n", argv);
+		ft_dprintf(1, "%s:\nContents of (__TEXT,__text) section\n", argv);
 		handle_64(ptr);
 	}
 	else if (magic_number == MH_MAGIC)
 	{
-		ft_dprintf(1, "%s:\n(__TEXT,__text) section\n", argv);
+		ft_dprintf(1, "%s:\nContents of (__TEXT,__text) section\n", argv);
 		handle_32(ptr);
 	}
 	else
