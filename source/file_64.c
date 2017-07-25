@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 20:26:46 by rabougue          #+#    #+#             */
-/*   Updated: 2017/07/24 20:26:48 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/07/25 22:18:37 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,29 @@ static void	free_same(char **array, uint32_t nb)
 	j = 1;
 	while (i < nb)
 	{
-		while (!array[i])
+		if (array[i] && array[i][17] == '0')
+			ft_strdel(&array[i]);
+		if (!array[i])
+		{
 			++i;
+			continue ;
+		}
 		j = i;
 		++j;
 		while (j < nb)
 		{
 			if (array[i] && array[j] && ft_strequ(&array[i][19], &array[j][19]) == 1)
-				ft_strdel(&array[j]);
+			{
+				if (array[i][0] != ' ' && array[j][0] == ' ')
+					ft_strdel(&array[j]);
+				else if (array[i][0] == ' ' && array[j][0] != ' ')
+				{
+					ft_strdel(&array[i]);
+					continue ;
+				}
+				else
+					ft_strdel(&array[j]);
+			}
 			++j;
 		}
 		++i;
@@ -74,8 +89,6 @@ static void	delete_same_value_64(char **array, uint32_t nb)
 		if (array[i] && array[i][19] == '/')
 			ft_strdel(&array[i]);
 		if (array[i] && ft_strlen(array[i]) == 19)
-			ft_strdel(&array[i]);
-		if (array[i] && array[i][17] == '0')
 			ft_strdel(&array[i]);
 		if (array[i] && array[i][19] != '_' && ft_strequ(&array[i][19], "dyld_stub_binder") == 0)
 			ft_strdel(&array[i]);
@@ -172,7 +185,7 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 		}
 		else if (header->filetype == MH_DYLIB)
 		{
-			if (flag == 62 || flag == 30)
+			if (flag_xor == 15 && flag_or == 15 && flag_and == 0)
 				ft_strcat(output[i], "t ");
 			else if (flag_xor == 26 && flag_or == 30 && flag_and == 4)
 				ft_strcat(output[i], "s ");
@@ -219,6 +232,8 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 			else if (flag_xor == 10 && flag_or == 15 && flag_and == 5)
 				ft_strcat(output[i], "S ");
 			else if (flag_xor == 14 && flag_or == 15 && flag_and == 1)
+				ft_strcat(output[i], "T ");
+			else if (flag_xor == 37 && flag_or == 37 && flag_and == 0)
 				ft_strcat(output[i], "T ");
 			else if (flag_xor == 1 && flag_or == 1 && flag_and == 0)
 				ft_strcat(output[i], "U ");
