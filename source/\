@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 20:26:46 by rabougue          #+#    #+#             */
-/*   Updated: 2017/07/29 23:31:41 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/07/26 17:04:32 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,98 +137,20 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 		ft_strcat(output[i], " ");
 		if (header->filetype == MH_EXECUTE)
 		{
-			if (flag_xor == 15 && flag_or == 15 && flag_and == 0)
-				ft_strcat(output[i], "t ");
-			else if (flag_xor == 26 && flag_or == 30 && flag_and == 4)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 10 && flag_or == 14 && flag_and == 4)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 4 && flag_or == 14 && flag_and == 10)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 4 && flag_or == 30 && flag_and == 26)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 30 && flag_or == 30 && flag_and == 0)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 14 && flag_or == 30 && flag_and == 16)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 11 && flag_or == 15 && flag_and == 4)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 19 && flag_or == 31 && flag_and == 12)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 2 && flag_or == 30 && flag_and == 28)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 24 && flag_or == 30 && flag_and == 6)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 8 && flag_or == 14 && flag_and == 6)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 11 && flag_or == 15 && flag_and == 14)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 15 && flag_or == 15 && flag_and == 0)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 3 && flag_or == 15 && flag_and == 12)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 7 && flag_or == 31 && flag_and == 24)
-				ft_strcat(output[i], "s ");
-			else if (flag_xor == 9 && flag_or == 15 && flag_and == 6)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 2 && flag_or == 15 && flag_and == 13)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 24 && flag_or == 31 && flag_and == 7)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 25 && flag_or == 31 && flag_and == 6)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 4 && flag_or == 15 && flag_and == 11)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 5 && flag_or == 15 && flag_and == 10)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 10 && flag_or == 15 && flag_and == 5)
-				ft_strcat(output[i], "S ");
-			else if (flag_xor == 14 && flag_or == 15 && flag_and == 1)
-				ft_strcat(output[i], "T ");
-			else if (flag_xor == 37 && flag_or == 37 && flag_and == 0)
-				ft_strcat(output[i], "T ");
-			else if (flag_xor == 1 && flag_or == 1 && flag_and == 0)
+			if ((array[i].n_type & array[i].n_sect) == 0x0)
 				ft_strcat(output[i], "U ");
-			else if (flag_xor == 1 && flag_or == 15 && flag_and == 14 && array[i].n_desc == 128)
+			else if ((array[i].n_type & array[i].n_sect) == 0x1)
+				ft_strcat(output[i], "T ");
+			else if ((array[i].n_type & array[i].n_sect) == 0x8)
+				ft_strcat(output[i], "d ");
+			else if ((array[i].n_type & array[i].n_sect) == 0x9 || (array[i].n_type & array[i].n_sect) == 0xc)
 				ft_strcat(output[i], "D ");
-			else if (flag_xor == 23 && flag_or == 31 && flag_and == 8)
-				ft_strcat(output[i], "D ");
-			else if (flag_xor == 1 && flag_or == 15 && flag_and == 14 && array[i].n_desc == 0)
+			else if ((array[i].n_type & array[i].n_sect) == 0xb || (array[i].n_type & array[i].n_sect) == 0xd)
+				ft_strcat(output[i], "S ");
+			else if ((array[i].n_type & array[i].n_sect) == 0xa)
 				ft_strcat(output[i], "b ");
-			else if (flag_xor == 2 && flag_or == 14 && flag_and == 12)
-				ft_strcat(output[i], "b ");
-			else if (flag_xor == 18 && flag_or == 30 && flag_and == 12)
-				ft_strcat(output[i], "b ");
-			else if (flag_xor == 20 && flag_or == 30 && flag_and == 10)
-				ft_strcat(output[i], "b ");
-			else if (flag_xor == 8 && flag_or == 14 && flag_and == 6)
-				ft_strcat(output[i], "d ");
-			else if (flag_xor == 22 && flag_or == 30 && flag_and == 8)
-				ft_strcat(output[i], "d ");
-			else if (flag_xor == 16 && flag_or == 30 && flag_and == 14)
-				ft_strcat(output[i], "d ");
-			else if (flag_xor == 6 && flag_or == 30 && flag_and == 24)
-				ft_strcat(output[i], "d ");
-			else if (flag_xor == 21 && flag_or == 31 && flag_and == 10)
-				ft_strcat(output[i], "d ");
-			else if (flag_xor == 0 && flag_or == 14 && flag_and == 14)
-				ft_strcat(output[i], "d ");
 			else
 				ft_strcat(output[i], "0 ");
-			/*if ((array[i].n_type & array[i].n_sect) == 0x0)*/
-				/*ft_strcat(output[i], "U ");*/
-			/*else if ((array[i].n_type & array[i].n_sect) == 0x1)*/
-				/*ft_strcat(output[i], "T ");*/
-			/*else if ((array[i].n_type & array[i].n_sect) == 0x8)*/
-				/*ft_strcat(output[i], "d ");*/
-			/*else if ((array[i].n_type & array[i].n_sect) == 0x9 || (array[i].n_type & array[i].n_sect) == 0xc)*/
-				/*ft_strcat(output[i], "D ");*/
-			/*else if ((array[i].n_type & array[i].n_sect) == 0xb || (array[i].n_type & array[i].n_sect) == 0xd)*/
-				/*ft_strcat(output[i], "S ");*/
-			/*else if ((array[i].n_type & array[i].n_sect) == 0xa)*/
-				/*ft_strcat(output[i], "b ");*/
-			/*else*/
-				/*ft_strcat(output[i], "0 ");*/
 		}
 		else if (header->filetype == MH_OBJECT)
 		{
@@ -351,18 +273,14 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 		/*printf("n_value = %lld\n", array[i].n_value);*/
 		/*printf("%d\n", array[i].n_type & array[i].n_sect);*/
 
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa((int)flag_xor)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa((int)flag_or)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa((int)flag_and)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa((int)array[i].n_desc)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa((int)array[i].n_value)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
-		/*ft_strcat(output[i], " ");*/
-		/*ft_strcat(output[i], ft_itoa((int)array[i].n_type & N_TYPE)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2*/
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)flag_xor)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)flag_or)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)flag_and)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
+		ft_strcat(output[i], " ");
+		ft_strcat(output[i], ft_itoa((int)array[i].n_desc)); // debug flag NE PAS OUBLIER DE SUPPRIMER LE MALLOC + 2
 		++i;
 	}
 	ft_sort_double_array(output);
@@ -372,26 +290,6 @@ static void	print_output_64(struct symtab_command *sym, struct mach_header_64 *h
 	ft_2d_tab_free(output);
 }
 
-void	get_seg_name_64(struct segment_command_64 *segment, char **array)
-{
-	struct section_64	*sec;
-	size_t				iter_array;
-	size_t				iter_sec;
-
-	iter_array = 0;
-	iter_sec = 0;
-	sec = (void *)((char *)segment + sizeof(struct segment_command_64));
-	while (array[iter_array])
-		++iter_array;
-	while (iter_sec < segment->nsects)
-	{
-		array[iter_array] = sec[iter_sec].sectname;
-		++iter_array;
-		++iter_sec;
-	}
-	array[iter_array] = NULL;
-}
-
 void	handle_64(char *ptr)
 {
 	struct load_command		*lc;
@@ -399,14 +297,11 @@ void	handle_64(char *ptr)
 	struct mach_header_64	*header;
 	uint32_t				i;
 	uint32_t				ncmds;
-	char					*segment_name[4096];
 
 	i = 0;
-	sym = NULL;
 	header = (void *)ptr; // header pointe sur ptr (octet 0 du binaire)
 	ncmds = header->ncmds; // ncmds contient le nombre de load_command
 	lc = (void *)ptr + sizeof(struct mach_header_64); // lc pointe sur le debut de la zone des load commands (juste apres le header)
-	ft_memset(segment_name, 0, 4096);
 	if (header->filetype > 0xb)
 	{
 		printf(RED"Invalid file\n"END);
@@ -415,12 +310,12 @@ void	handle_64(char *ptr)
 	while (i < ncmds) // on iter autant de fois qu'il y a de load commands
 	{
 		if (lc->cmd == LC_SYMTAB) // si la cmd est egal a LC_SYMTAB
+		{
 			sym = (struct symtab_command *)lc;
-		if (lc->cmd == LC_SEGMENT_64)
-			get_seg_name_64((struct segment_command_64 *)lc, segment_name);
+			print_output_64(sym, header, ptr);
+			break ;
+		}
 		lc = (void *)lc + lc->cmdsize; // on incremente de la taille d'une cmdsize
 		++i; // on incremente i
 	}
-	if (sym)
-		print_output_64(sym, header, ptr);
 }
