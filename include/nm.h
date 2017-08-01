@@ -31,5 +31,6 @@ char	*setup_unset(int argc, char *argv, t_setup *stp, char flag);
 void	handle_64(char *ptr);
 void	handle_64_revers(char *ptr);
 void	handle_32(char *ptr);
+char	symbol(size_t n_type, int value, char *buf);
 
 #endif
