@@ -16,6 +16,7 @@
 #include "../libft/includes/libft.h"
 #include <sys/mman.h>
 #include <mach-o/loader.h>
+#include <mach-o/fat.h>
 #include <mach-o/nlist.h>
 #include <sys/stat.h>
 
@@ -32,5 +33,6 @@ void	handle_64(char *ptr);
 void	handle_64_revers(char *ptr);
 void	handle_32(char *ptr);
 char	symbol(size_t n_type, int value, char *buf);
+void	fat_handle(char *file);
 
 #endif

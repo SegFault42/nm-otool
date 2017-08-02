@@ -16,6 +16,7 @@
 #include "../libft/includes/libft.h"
 #include <sys/mman.h>
 #include <mach-o/loader.h>
+#include <mach-o/fat.h>
 #include <mach-o/nlist.h>
 #include <sys/stat.h>
 
@@ -30,5 +31,6 @@ typedef struct	s_setup
 char	*setup_unset(char *argv, t_setup *stp, char flag);
 void	handle_64(char *ptr);
 void	handle_32(char *ptr);
+void	fat_handle(char *file, char *argv);
 
 #endif
