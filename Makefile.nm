@@ -6,7 +6,7 @@
 #    By: rabougue <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/10 19:16:51 by rabougue          #+#    #+#              #
-#    Updated: 2017/07/24 19:15:51 by rabougue         ###   ########.fr        #
+#    Updated: 2017/08/08 06:47:59 by rabougue         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,15 @@ END = \033[0m
 ##################################_COMPILATION_#################################
 NAME = ft_nm
 CC = clang
-#FLAG = -Wall -Wextra -Werror -g
-FLAG = -Weverything -g
+FLAG = -Wall -Wextra -Werror -g
 LFT = ./libft/libft.a
 SRC = ./source
 SRCS = $(SRC)/main.c \
 	   $(SRC)/setup.c \
 	   $(SRC)/file_64.c \
 	   $(SRC)/file_32.c \
+	   $(SRC)/file_32_1.c \
+	   $(SRC)/print.c \
 
 INCLUDE = -I ./include/ -I ./libft/includes/
 

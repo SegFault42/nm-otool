@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_sort_double_array.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/08 02:52:12 by rabougue          #+#    #+#             */
+/*   Updated: 2017/08/08 02:52:44 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/libft.h"
 
 void	ft_sort_double_array_32(char **arguments)
 {
 	char	*tmp;
-	int	find;
-	int	i;
+	int		find;
+	int		i;
 
 	find = 1;
 	while (find)
@@ -28,8 +40,8 @@ void	ft_sort_double_array_32(char **arguments)
 void	ft_sort_double_array(char **arguments)
 {
 	char	*tmp;
-	int	find;
-	int	i;
+	int		find;
+	int		i;
 
 	find = 1;
 	while (find)

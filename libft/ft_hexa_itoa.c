@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/05 05:59:12 by rabougue          #+#    #+#             */
-/*   Updated: 2016/11/18 11:32:02 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/08 02:50:50 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char		*ft_hexa_itoa(unsigned long long n, int up)
 {
 	char				*str;
 	int					size;
-	unsigned long long		x;
+	unsigned long long	x;
 
 	x = n;
 	size = 0;

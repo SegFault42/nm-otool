@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_32.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/08 02:54:33 by rabougue          #+#    #+#             */
+/*   Updated: 2017/08/08 02:55:07 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "otool.h"
 
 static void	print_otool_32(struct section *sec, char *ptr)
@@ -28,7 +40,8 @@ static void	print_otool_32(struct section *sec, char *ptr)
 	}
 }
 
-static void	print_output_32(struct load_command *lc, uint32_t filetype, char *ptr)
+static void	print_output_32(struct load_command *lc, uint32_t filetype,
+		char *ptr)
 {
 	struct segment_command	*seg;
 	struct section			*sec;
@@ -50,7 +63,7 @@ static void	print_output_32(struct load_command *lc, uint32_t filetype, char *pt
 	}
 }
 
-void	handle_32(char *ptr)
+void		handle_32(char *ptr)
 {
 	struct mach_header	*header;
 	struct load_command	*lc;

@@ -6,13 +6,13 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/23 20:38:38 by rabougue          #+#    #+#             */
-/*   Updated: 2017/07/23 20:43:32 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/08 02:58:19 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "otool.h"
 
-char *setup_unset(char *argv, t_setup *setup, char flag)
+char	*setup_unset(char *argv, t_setup *setup, char flag)
 {
 	if (flag == 's')
 	{

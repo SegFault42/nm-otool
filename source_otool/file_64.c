@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/23 20:43:57 by rabougue          #+#    #+#             */
-/*   Updated: 2017/07/24 17:10:46 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/08 02:58:01 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static bool	print_output_64(struct load_command *lc, char *p)
 	sec = (struct section_64 *)((char *)seg +
 			sizeof(struct segment_command_64));
 	if (seg->vmsize == 0)
-		return false;
+		return (false);
 	while (i < seg->nsects)
 	{
 		if (ft_strcmp(sec->sectname, SECT_TEXT) == 0 &&
@@ -76,10 +76,10 @@ static bool	print_output_64(struct load_command *lc, char *p)
 		sec++;
 		i++;
 	}
-	return true;
+	return (true);
 }
 
-void	handle_64(char *ptr)
+void		handle_64(char *ptr)
 {
 	struct mach_header_64	*header;
 	struct load_command		*lc;

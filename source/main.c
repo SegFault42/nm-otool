@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/08 03:46:07 by rabougue          #+#    #+#             */
+/*   Updated: 2017/08/08 07:16:51 by rabougue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "nm.h"
 
 static int	reverse_int(int x)
@@ -6,7 +18,7 @@ static int	reverse_int(int x)
 	return (x << 16) | (x >> 16);
 }
 
-static void	nm(char *ptr)
+void		nm(char *ptr)
 {
 	uint32_t	magic_number;
 	static int	i = 0;

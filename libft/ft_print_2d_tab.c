@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 19:21:22 by rabougue          #+#    #+#             */
-/*   Updated: 2017/07/30 00:24:04 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/08 02:51:23 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_print_2d_tab(char **tab)
 	{
 		while (tab[i])
 		{
-			if(!ft_strstr(tab[i], "radr://5614542"))
+			if (!ft_strstr(tab[i], "radr://5614542"))
 				ft_dprintf(1, "%s\n", tab[i]);
 			++i;
 		}

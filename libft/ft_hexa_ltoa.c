@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 03:58:17 by rabougue          #+#    #+#             */
-/*   Updated: 2016/08/06 22:15:07 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/08 02:50:24 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	switch_hexa(unsigned long long x, int up)
 char		*ft_hexa_ltoa(unsigned long long n, int up)
 {
 	char				*str;
-	unsigned long long 	size;
+	unsigned long long	size;
 	unsigned long long	x;
 
 	x = n;
