@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 20:26:46 by rabougue          #+#    #+#             */
-/*   Updated: 2017/08/08 07:22:55 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/09 02:56:14 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	use_buf(char *str)
 	return ('S');
 }
 
-char	symbol(size_t n_type, int value, char *buf)
+char		symbol(size_t n_type, int value, char *buf)
 {
 	size_t	tmp;
 	char	r;
@@ -69,7 +69,7 @@ static void	get_seg_name_64(struct segment_command_64 *segment, char **array)
 	array[iter_array] = NULL;
 }
 
-void	swap_64(char **array, uint32_t nb)
+void		swap_64(char **array, uint32_t nb)
 {
 	uint32_t	i;
 	uint32_t	j;
@@ -97,48 +97,10 @@ void	swap_64(char **array, uint32_t nb)
 	}
 }
 
-void	free_same(char **array, uint32_t nb)
-{
-	uint32_t	i;
-	uint32_t	j;
-
-	i = 0;
-	j = 1;
-	while (i < nb)
-	{
-		if (array[i] && array[i][17] == '0')
-			ft_strdel(&array[i]);
-		if (!array[i])
-		{
-			++i;
-			continue ;
-		}
-		j = i;
-		++j;
-		while (j < nb)
-		{
-			if (array[i] && array[j] && ft_strequ(&array[i][19], &array[j][19]) == 1)
-			{
-				if (array[i][0] != ' ' && array[j][0] == ' ')
-					ft_strdel(&array[j]);
-				else if (array[i][0] == ' ' && array[j][0] != ' ')
-				{
-					ft_strdel(&array[i]);
-					continue ;
-				}
-				else
-					ft_strdel(&array[j]);
-			}
-			++j;
-		}
-		++i;
-	}
-}
-
 #define I tab[0]
 #define NCMDS tab[1]
 
-void	handle_64(char *ptr)
+void		handle_64(char *ptr)
 {
 	struct load_command		*lc;
 	struct symtab_command	*sym;

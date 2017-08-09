@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 03:46:07 by rabougue          #+#    #+#             */
-/*   Updated: 2017/08/08 07:16:51 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/09 04:00:06 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		nm(char *ptr)
 		ft_dprintf(2, RED"NOT SUPPORTED YET :(\n"END);
 }
 
-void	fat_handle(char *file)
+void		fat_handle(char *file)
 {
 	struct fat_header	*header;
 	struct fat_arch		*arch;
@@ -50,7 +50,8 @@ void	fat_handle(char *file)
 	arch = (void*)&header[1];
 	while (i < reverse_int(header->nfat_arch))
 	{
-		if (reverse_int(arch->cputype) == CPU_TYPE_X86_64 || reverse_int(arch->cputype) == CPU_TYPE_X86)
+		if (reverse_int(arch->cputype) == CPU_TYPE_X86_64 ||
+				reverse_int(arch->cputype) == CPU_TYPE_X86)
 			offset = arch->offset;
 		++i;
 		++arch;
@@ -58,8 +59,18 @@ void	fat_handle(char *file)
 	nm(file + reverse_int(offset));
 }
 
+bool		argc_equal_1(t_setup *setup, int argc)
+{
+	setup->ptr = setup_unset(argc, "./a.out", setup, 's');
+	if (!setup->ptr)
+		return (false);
+	nm(setup->ptr);
+	if (setup_unset(argc, "a.out", setup, 'u') == (char *)-1)
+		return (false);
+	return (true);
+}
 
-int	main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_setup	setup;
 	int		i;
@@ -68,11 +79,7 @@ int	main(int argc, char **argv)
 	ft_memset(&setup, 0, sizeof(t_setup));
 	if (argc == 1)
 	{
-		setup.ptr = setup_unset(argc, "./a.out", &setup, 's');
-		if (!setup.ptr)
-			return (EXIT_FAILURE);
-		nm(setup.ptr);
-		if (setup_unset(argc, "a.out", &setup, 'u') == (char *)-1)
+		if (argc_equal_1(&setup, argc) == false)
 			return (EXIT_FAILURE);
 	}
 	else
