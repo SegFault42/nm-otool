@@ -87,7 +87,7 @@ void	delete_same_value_2(char **array, uint32_t nb)
 		++i;
 	}
 	swap(array, nb);
-	swap(array, nb);
+	/*swap(array, nb);*/
 }
 
 void	delete_same_value(char **array, uint32_t nb)
