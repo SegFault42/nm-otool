@@ -27,12 +27,12 @@ char	*setup_unset(int argc, char *argv, t_setup *setup, char flag)
 		PROT_READ, MAP_PRIVATE, setup->fd, 0);
 		if (setup->ptr == MAP_FAILED)
 			return (NULL);
+		close(setup->fd);
 	}
 	else if (flag == 'u')
 	{
 		if (munmap(setup->ptr, (size_t)setup->buf.st_size) == -1)
-			return ((char *)-1);
-		ft_memset(setup, 0, sizeof(t_setup));
+			return (NULL);
 	}
 	return (setup->ptr);
 }

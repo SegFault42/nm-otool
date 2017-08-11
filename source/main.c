@@ -12,7 +12,7 @@
 
 #include "nm.h"
 
-static int	reverse_int(int x)
+static uint32_t	reverse_int(uint32_t x)
 {
 	x = ((x << 8) & 0xFF00FF00) | ((x >> 8) & 0xFF00FF);
 	return (x << 16) | (x >> 16);
@@ -41,7 +41,7 @@ void		fat_handle(char *file)
 {
 	struct fat_header	*header;
 	struct fat_arch		*arch;
-	int					i;
+	uint32_t			i;
 	int					offset;
 
 	i = 0;
@@ -86,11 +86,12 @@ int			main(int argc, char **argv)
 	{
 		while (++i < argc)
 		{
+			ft_memset(&setup, 0, sizeof(t_setup));
 			setup.ptr = setup_unset(argc, argv[i], &setup, 's');
 			if (!setup.ptr)
 				continue ;
 			nm(setup.ptr);
-			if (setup_unset(argc, argv[i], &setup, 'u') == (char *)-1)
+			if (setup_unset(argc, argv[i], &setup, 'u') == NULL)
 				return (EXIT_FAILURE);
 		}
 	}

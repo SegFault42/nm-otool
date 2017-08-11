@@ -40,8 +40,7 @@ static void	print_otool_32(struct section *sec, char *ptr)
 	}
 }
 
-static void	print_output_32(struct load_command *lc, uint32_t filetype,
-		char *ptr)
+static void	print_output_32(struct load_command *lc, char *ptr)
 {
 	struct segment_command	*seg;
 	struct section			*sec;
@@ -54,10 +53,7 @@ static void	print_output_32(struct load_command *lc, uint32_t filetype,
 	{
 		if (ft_strcmp(sec->sectname, SECT_TEXT) == 0 &&
 			ft_strcmp(sec->segname, SEG_TEXT) == 0)
-		{
-			if (filetype == MH_EXECUTE)
-				print_otool_32(sec, ptr);
-		}
+			print_otool_32(sec, ptr);
 		sec++;
 		i++;
 	}
@@ -80,7 +76,7 @@ void		handle_32(char *ptr)
 	while (i < header->ncmds)
 	{
 		if (lc->cmd == LC_SEGMENT)
-			print_output_32(lc, header->filetype, ptr);
+			print_output_32(lc, ptr);
 		lc = (void*)lc + lc->cmdsize;
 		i++;
 	}

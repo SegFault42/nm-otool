@@ -12,7 +12,7 @@
 
 #include "otool.h"
 
-static int	reverse_int(int x)
+static uint32_t	reverse_int(uint32_t x)
 {
 	x = ((x << 8) & 0xFF00FF00) | ((x >> 8) & 0xFF00FF);
 	return (x << 16) | (x >> 16);
@@ -47,7 +47,7 @@ void		fat_handle(char *file, char *argv)
 {
 	struct fat_header	*header;
 	struct fat_arch		*arch;
-	int					i;
+	uint32_t			i;
 	int					offset;
 
 	i = 0;

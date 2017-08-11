@@ -29,7 +29,7 @@ static void	stock_addr(uint32_t n_value, char **output)
 	ft_strcat(*output, " ");
 }
 
-static void	stock_symbol(char symbol, char **output)
+static void	stock_symbol(char symbol, char **output, uint32_t filetype)
 {
 	char	test[2];
 
@@ -42,6 +42,8 @@ static void	stock_symbol(char symbol, char **output)
 	}
 	else
 		ft_strcat(*output, "0 ");
+	if (symbol == 'T' && filetype == MH_OBJECT)
+		ft_memset(*output, '0', 8);
 }
 
 static void	sort_and_print(char **output, uint32_t nsyms)
@@ -56,7 +58,7 @@ static void	sort_and_print(char **output, uint32_t nsyms)
 #define LEN ft_strlen(stringtable + array[i].n_un.n_strx) + 1
 
 static void	print_output_32(struct symtab_command *sym, char *ptr,
-		char **segment_name)
+		char **segment_name, uint32_t filetype)
 {
 	uint32_t		i;
 	char			*stringtable;
@@ -77,7 +79,7 @@ static void	print_output_32(struct symtab_command *sym, char *ptr,
 		if (!output[i])
 			ft_critical_error(MALLOC_ERROR);
 		stock_addr(array[i].n_value, &output[i]);
-		stock_symbol(symbol[i], &output[i]);
+		stock_symbol(symbol[i], &output[i], filetype);
 		ft_strcat(output[i], stringtable + array[i].n_un.n_strx);
 		++i;
 	}
@@ -101,6 +103,7 @@ void		handle_32(char *ptr)
 	header = (void *)ptr;
 	NCMDS = header->ncmds;
 	lc = (void *)ptr + sizeof(struct mach_header);
+	ft_memset(segment_name, 0, 4096);
 	if (header->filetype > 0xb)
 		return ;
 	while (I < NCMDS)
@@ -113,5 +116,5 @@ void		handle_32(char *ptr)
 		++I;
 	}
 	if (sym)
-		print_output_32(sym, ptr, segment_name);
+		print_output_32(sym, ptr, segment_name, header->filetype);
 }
