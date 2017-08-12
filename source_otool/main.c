@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/23 20:39:17 by rabougue          #+#    #+#             */
-/*   Updated: 2017/08/08 02:59:52 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/12 23:39:31 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static uint32_t	reverse_int(uint32_t x)
 	return (x << 16) | (x >> 16);
 }
 
-static void	o_tool(char *ptr, char *argv)
+static void		o_tool(char *ptr, char *argv)
 {
 	uint32_t	magic_number;
 	static int	i = 0;
@@ -43,7 +43,7 @@ static void	o_tool(char *ptr, char *argv)
 		ft_dprintf(2, RED"%s File not supported\n"END, argv);
 }
 
-void		fat_handle(char *file, char *argv)
+void			fat_handle(char *file, char *argv)
 {
 	struct fat_header	*header;
 	struct fat_arch		*arch;
@@ -65,7 +65,7 @@ void		fat_handle(char *file, char *argv)
 	o_tool(file + reverse_int(offset), argv);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_setup	setup;
 	int		i;

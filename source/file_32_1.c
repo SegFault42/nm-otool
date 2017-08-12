@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 05:22:22 by rabougue          #+#    #+#             */
-/*   Updated: 2017/08/08 05:25:03 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/12 23:38:26 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	delete_same_value_2(char **array, uint32_t nb)
 		++i;
 	}
 	swap(array, nb);
-	/*swap(array, nb);*/
 }
 
 void	delete_same_value(char **array, uint32_t nb)

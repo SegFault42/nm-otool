@@ -6,7 +6,7 @@
 /*   By: rabougue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 03:46:07 by rabougue          #+#    #+#             */
-/*   Updated: 2017/08/09 04:00:06 by rabougue         ###   ########.fr       */
+/*   Updated: 2017/08/12 23:39:01 by rabougue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static uint32_t	reverse_int(uint32_t x)
 	return (x << 16) | (x >> 16);
 }
 
-void		nm(char *ptr)
+void			nm(char *ptr)
 {
 	uint32_t	magic_number;
 	static int	i = 0;
@@ -37,7 +37,7 @@ void		nm(char *ptr)
 		ft_dprintf(2, RED"NOT SUPPORTED YET :(\n"END);
 }
 
-void		fat_handle(char *file)
+void			fat_handle(char *file)
 {
 	struct fat_header	*header;
 	struct fat_arch		*arch;
@@ -59,7 +59,7 @@ void		fat_handle(char *file)
 	nm(file + reverse_int(offset));
 }
 
-bool		argc_equal_1(t_setup *setup, int argc)
+bool			argc_equal_1(t_setup *setup, int argc)
 {
 	setup->ptr = setup_unset(argc, "./a.out", setup, 's');
 	if (!setup->ptr)
@@ -70,7 +70,7 @@ bool		argc_equal_1(t_setup *setup, int argc)
 	return (true);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_setup	setup;
 	int		i;

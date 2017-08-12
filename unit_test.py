@@ -7,7 +7,7 @@ import textwrap
 
 
 # absolute path to your nm_otool project
-PROJECT_PATH = '/Users/segfault42/Documents/nm-otool'
+PROJECT_PATH = '/Users/rabougue/Documents/nm-otool'
 
 NM_PATH = os.path.join(PROJECT_PATH, 'ft_nm')
 OTOOL_PATH = os.path.join(PROJECT_PATH, 'ft_otool')
